@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<package format="1">
+  <name>MeshStudy</name>
+  <description>Automates mesh convergence studies for FEM.</description>
+  <version>0.1.0</version>
+  <date>2026-08-19</date>
+  <fileversion>1</fileversion>
+
+  <maintainer email="abdalla.engineering@gmail.com">Abdalla Abbas</maintainer>
+  <license>LGPL-2.1-or-later</license>
+  <url type="repository" branch="main">https://github.com/eng-abdalla-abbas/MeshStudy</url>
+  <icon>resources/icons/Workbench.png</icon>
+
+  <depend>
+    <package version="0.20.0">freecad</package>
+  </depend>
+</package>
