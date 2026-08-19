@@ -2,7 +2,7 @@ import FreeCAD as App
 import FreeCADGui as Gui
 import os
 
-class MeshStudyWorkbench(Gui.Workbench):
+class MeshStudy(Gui.Workbench):
     MenuText = "Mesh Study v0.1"
     ToolTip = "A professional Workbench for Mesh Convergence Study"
 
@@ -36,4 +36,4 @@ class MeshStudyWorkbench(Gui.Workbench):
     def GetClassName(self): 
         return "Gui::PythonWorkbench"
        
-Gui.addWorkbench(MeshStudyWorkbench())
+Gui.addWorkbench(MeshStudy())
