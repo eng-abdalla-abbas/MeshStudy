@@ -1,4 +1,4 @@
-## Mesh Study
+# Mesh Study
 A workbench that automates mesh convergence studies for FEM in FreeCAD software.
 
 
@@ -12,7 +12,7 @@ A workbench that automates mesh convergence studies for FEM in FreeCAD software.
 * **Comprehensive Results Visualization**: Displays output outcomes through organized data tables and convergence charts.
 * **Extensible Structure**: Extensible analysis, refinement, and QoI strategies.
     *  **Extensible Analysis**: It supportes static structural analysis, with a scope to add modal and thermal anlysis.
-    *  **Extensible Refinement**: It supportes uniform refinement factor (uniform h), with a scope to add adaptive refinement strategies.
+    *  **Extensible Refinement**: It supportes uniform refinement factor method (uniform h), with a scope to add adaptive refinement strategies.
     * **Extensible QoI**: it captures stress or displacment, with a scope to add more quantaties (together or each), and more ways to capture QoI (maximum, exact node... etc.).
 ---
 
