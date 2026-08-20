@@ -45,17 +45,6 @@ class MeshStudyRunService:
             if progress_callback:
                 progress_callback(run_idx, len(sizes), f"Meshing (Size: {min_size})...")
 
-            # Changing the mesher properties (Gmsh or Netgen)
-            if self.obj.Mesher == "Gmsh":
-                mesh_obj.CharacteristicLengthMax = max_size
-                mesh_obj.CharacteristicLengthMin = min_size
-            elif self.obj.Mesher == "Netgen":
-                mesh_obj.MaxSize = max_size
-                mesh_obj.MinSize = min_size
-
-            mesh_obj.recompute()
-            App.ActiveDocument.recompute()
-
             # Meshing
             from fem.mesh_runner import MeshRunner
             MeshRunner.generate(self.obj, (max_size, min_size))

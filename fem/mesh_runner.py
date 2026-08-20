@@ -10,7 +10,7 @@ class MeshRunner:
             try:
                 import ObjectsFem.makeMeshNetgen as nt
             except ImportError:
-                nt = None
+                pass
 
         mesh_obj = obj.MeshObject
         
@@ -22,12 +22,13 @@ class MeshRunner:
             gmsh.create_mesh()
                     
         elif mesh_obj.TypeId == "Fem::FemMeshShapeNetgenObject":
-            mesh_obj.MaxSize = size[0]
+            App.Console.PrintError("Netgen Mesher is not supported yet! (Mesh Study Workbench)")
+            """mesh_obj.MaxSize = size[0]
             mesh_obj.MinSize = size[1]
             mesh_obj.touch()
             netgen = nt.NetgenTools(mesh_obj)
             netgen.prepare()
-            netgen.compute()
+            netgen.compute()"""
 
         obj.recompute()
         App.ActiveDocument.recompute()

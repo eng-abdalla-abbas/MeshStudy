@@ -26,8 +26,8 @@ def check_convergence(data, tolerance):
             App.Console.PrintMessage("N/A")
             is_currently_converged = False
         else:
-            error = abs(CQoI - PQoI) / abs(PQoI)
-            App.Console.PrintMessage(f"~{round(error * 100, 3)}%")
+            error = (abs(CQoI - PQoI) / abs(PQoI)) * 100 
+            App.Console.PrintMessage(f"~{round(error, 3)}%")
             
             # Track convergence status and preserve the FIRST converged step, and restore the status if it diverges again.
             if error <= tolerance:

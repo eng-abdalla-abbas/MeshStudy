@@ -31,10 +31,10 @@ class MeshStudyProxy:
         obj.addProperty("App::PropertyStringList", "StudyResults", "Internal")
 
         # Default Values 
-        obj.AnalysisType = ["Static structural", "Modal", "Thermal"]
+        obj.AnalysisType = ["Static structural"]#, "Modal", "Thermal"]
         obj.Solver = ["CalculiX"]
-        obj.Mesher = ["Gmsh", "Netgen"]
-        obj.QuantityOfInterest = ["Stress", "Strain", "Displacement"]
+        obj.Mesher = ["Gmsh"]#, "Netgen"]
+        obj.QuantityOfInterest = ["Stress", "Displacement"]#, "Strain"]
         obj.Tolerance = (5.0, 0.1, 50.0, 0.1)
         obj.InitialMeshSize = 0.0
         obj.RefinementFactor = (0.5, 0.1, 1.0, 0.5)
