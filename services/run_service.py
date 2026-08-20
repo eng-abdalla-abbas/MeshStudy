@@ -15,6 +15,9 @@ class MeshStudyRunService:
 
     def execute(self, progress_callback=None) -> list:
         
+        doc = App.ActiveDocument
+        obj = doc.getObject("MeshStudy")
+        
         # Check the links
         if not self.obj.TheStudyTarget:
             raise MeshStudyError("No Analysis target selected in MeshStudy object.")
@@ -51,6 +54,7 @@ class MeshStudyRunService:
                 mesh_obj.MinSize = min_size
 
             mesh_obj.recompute()
+            App.ActiveDocument.recompute()
 
             # Meshing
             from fem.mesh_runner import MeshRunner
@@ -64,32 +68,26 @@ class MeshStudyRunService:
             if progress_callback:
                 progress_callback(run_idx, len(sizes), "Waiting interval (a chance to stop)...")
             time.sleep(2)
+
+            # Check if stop
             from services import send_signal
             if send_signal.get_signal("STOP"):
                 print("received stop")
                 send_signal.reset_signal()
                 break
-            else:
-                print("Fine")
                 
             # Running CalculiX
             if progress_callback:
                 progress_callback(run_idx, len(sizes), "Solving with CalculiX...")
 
+            from fem.solver_runner import SolverRunner
+            SolverRunner.solve(obj)
 
-            from femtools import ccxtools
-            fea = ccxtools.FemToolsCcx()
-            fea.update_mesh_with_results = False
-            fea.purge_results()
-            fea.run()
-
-
-# Results extraction
-            
-
+            # Results extraction
             result_obj = self.doc.getObject("CCX_Results") or self.doc.getObject(f"CCX_Results_{solver_obj.Name}")
             qoi_value = qoi_extractor.extract(result_obj) if result_obj else 0.0
 
+            # format data
             run_data = {
                 "Run": run_idx,
                 "Size": [max_size, min_size],
@@ -113,7 +111,7 @@ class MeshStudyRunService:
         user_dir = App.getUserAppDataDir()
         save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
         os.makedirs(save_dir, exist_ok=True)
-        file_path = os.path.join(save_dir, "backup_resultes.json")
+        file_path = os.path.join(save_dir,"resources", "data", "backup_resultes.json")
 
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=4)
@@ -127,7 +125,7 @@ class MeshStudyRunService:
             user_dir = App.getUserAppDataDir()
             save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
             os.makedirs(save_dir, exist_ok=True)
-            file_path = os.path.join(save_dir, "backup_resultes.json")
+            file_path = os.path.join(save_dir,"resources", "data", "backup_resultes.json")
     
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(clear, f, indent=4)

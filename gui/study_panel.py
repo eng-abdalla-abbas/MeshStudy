@@ -9,7 +9,6 @@ except ImportError:
 class MeshStudyTaskPanel:
     
     def __init__(self, study_obj):
-        App.Console.PrintMessage("no proplemes reaching!")
         self.obj = study_obj
         self.form = QtWidgets.QWidget()
         self.form.setWindowTitle("Mesh Study Configuration")
@@ -17,6 +16,8 @@ class MeshStudyTaskPanel:
         layout = QtWidgets.QFormLayout(self.form)
 
         #Enteries
+        self.size_spin = QtWidgets.QSpinBox()
+        self.size_spin.setValue(self.obj.InitialMeshSize)
         
         self.runs_spin = QtWidgets.QSpinBox()
         self.runs_spin.setRange(2, 20)
@@ -36,6 +37,7 @@ class MeshStudyTaskPanel:
         self.tol_spin.setSuffix(" %")
         self.tol_spin.setValue(self.obj.Tolerance)
 
+        layout.addRow("Initial mesh size:", self.size_spin)
         layout.addRow("Number of Runs:", self.runs_spin)
         layout.addRow("Refinement Factor:", self.factor_spin)
         layout.addRow("Target QoI:", self.qoi_combo)
@@ -43,6 +45,7 @@ class MeshStudyTaskPanel:
 
     def accept(self):
         """"accept change"""
+        self.obj.InitialMeshSize = self.size_spin.value()
         self.obj.NumberOfRuns = self.runs_spin.value()
         self.obj.RefinementFactor = self.factor_spin.value()
         self.obj.QuantityOfInterest = self.qoi_combo.currentText()

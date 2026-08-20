@@ -5,4 +5,4 @@ class DisplacementExtractor(QoIExtractor):
         """get max displacement"""
         if not hasattr(result_object, 'DisplacementLengths'):
             return 0.0
-        return max(result_object.DisplacementLengths)
+        return max(result_object.DisplacementLengths) *1e3 # convert m to mm

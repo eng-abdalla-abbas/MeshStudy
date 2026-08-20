@@ -122,7 +122,6 @@ class CmdShowResults:
             try:
                 results_attr = selection[0].Proxy.indexed_results
                 r_list = json.loads(getattr(selection[0], results_attr)[0])
-                print("found!")
                 ShowResults(r_list)
             except: 
                 App.Console.PrintError(f"please select a result object from the tree view! (under the Mesh-Study object)\n")
@@ -145,7 +144,7 @@ class CmdShowResults:
 
 def setup_commands():
     """setup all commandes for FreeCAD"""
-    print("setup_commands check! \n")
+    
     Gui.addCommand('AddMeshStudy', CmdAddMeshStudy())
     Gui.addCommand('RunMeshStudy', CmdRunMeshStudy())
     Gui.addCommand('ShowResults', CmdShowResults())

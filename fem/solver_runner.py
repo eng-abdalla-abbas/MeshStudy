@@ -30,6 +30,7 @@ class SolverRunner:
             return
 
         from femtools import ccxtools
+
         fea = ccxtools.FemToolsCcx()
         fea.purge_results()
         fea.run()
