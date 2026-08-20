@@ -60,8 +60,8 @@ class StudyResultProxy:
 
             # Default Values 
             import json
-            self.data = json.dumps(self.data)
-            setattr(obj, self.indexed_results, self.data)
+            data = json.dumps(self.data)
+            setattr(obj, self.indexed_results, data)
         
         def execute(self, obj):
                 pass

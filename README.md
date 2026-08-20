@@ -22,7 +22,7 @@ A workbench that automates mesh convergence studies for FEM in FreeCAD software.
 2. **Initialize Study**: Select your 'analysis' container and switch to the **Mesh Study** workbench, then click **Add Study** to create a `MeshStudy` object in the tree view.
 3. **Configure Parameters**: Adjust properties such as mesh sizes, refinement factors and quantity of interest from the task panel.
 4. **Run Study**: Click **Run Study** to execute simulations across different mesh sizes automatically.
-5. **Review Results**: Inspect the generated data tables and charts, and explore the individual result objects nested under the `MeshStudy` container in the tree view.
+5. **Review Results**: Inspect the generated data table and chart, and explore the individual result objects nested under the `MeshStudy` container in the tree view.
 
 ---
 
@@ -38,9 +38,11 @@ MeshStudyWorkbench/
 ├── CHANGELOG.md               # Version history
 ├── resources/                 # Icons and UI resources
 ├── core/                      # Core logic, limits, and convergence math
-├── strategies/                # Extensible analysis, refinement, and QoI strategies
+├── strategies/                # Extensible (analysis, refinement, and QoI) strategies
 ├── gui/                       # Commands, task panels, dialogs, and widgets
 ├── fem/                       # FreeCAD FEM and solver adapters
 ├── objects/                   # FreeCAD Document Object Model (MeshStudy & Results)
 ├── services/                  # Execution orchestration and run service
 └── predict/                   # Intelligence layer (for the future)
+
+If there's any issues, reportes or suggestions, please open a new issue at the [MeshStudy/issues](https://github.com/MeshStudy/issues) page, or contact me directly at <abdalla.engineering@gmail.com> .

@@ -86,8 +86,12 @@ class CmdRunMeshStudy:
             results = service.execute(progress_callback=progress_update)
             dialog.accept()
 
-            #result child object
+            # result child object
             create_study_results(results)
+            ShowResults(results)
+
+            # delete backup data
+            service.clear_results()
 
         except MeshStudyError as e:
             dialog.reject()
@@ -117,7 +121,8 @@ class CmdShowResults:
         if selection and selection[0].TypeId == "App::FeaturePython":
             try:
                 results_attr = selection[0].Proxy.indexed_results
-                r_list = json.loads(getattr(selection[0].Proxy, results_attr)[0])
+                r_list = json.loads(getattr(selection[0], results_attr)[0])
+                print("found!")
                 ShowResults(r_list)
             except: 
                 App.Console.PrintError(f"please select a result object from the tree view! (under the Mesh-Study object)\n")

@@ -3,7 +3,7 @@ import json
 import os 
 
 user_dir = App.getUserAppDataDir()
-save_dir = os.path.join(user_dir, "Mod", "MeshStudyWorkbench", "services")
+save_dir = os.path.join(user_dir, "Mod", "MeshStudy", "services")
 os.makedirs(save_dir, exist_ok=True)
 file_path = os.path.join(save_dir, "service_signals.json")
 data = []

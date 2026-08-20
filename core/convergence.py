@@ -1,7 +1,6 @@
 import FreeCAD as App
 
 def check_convergence(data, tolerance):
-    # Checking the convergence from the (Relative errors)
     App.Console.PrintMessage("\n--- Convergence Report ---\n")
     
     if len(data) <= 2:
@@ -10,26 +9,42 @@ def check_convergence(data, tolerance):
 
     App.Console.PrintMessage("Relative Error Convergence: ")
     
-    for i in range(len(data)-1):
+    last_index = len(data) - 2
+    all_same = True
+    convergence = None
+    is_currently_converged = False
+
+    for i in range(len(data) - 1):
         CQoI = data[i+1]['QoI']
         PQoI = data[i]['QoI']
 
-        # Avoiding Zero Division
+        if CQoI != PQoI:
+            all_same = False
+
+        # Handle zero division safely
         if PQoI == 0:
-            continue
-            
-        error = abs(CQoI - PQoI) / PQoI
-        
-        if i <= (len(data) - 2):
+            App.Console.PrintMessage("N/A")
+            is_currently_converged = False
+        else:
+            error = abs(CQoI - PQoI) / abs(PQoI)
             App.Console.PrintMessage(f"~{round(error * 100, 3)}%")
             
-        if i != (len(data) - 2):
-            App.Console.PrintMessage(" --> ")
-        elif error <= tolerance and CQoI != PQoI:
-            App.Console.PrintMessage(f"\n => Convergence achieved between run {i+1} and run {i+2}!\n")
-            break
-        elif i == (len(data) - 2):
-            if CQoI == PQoI:
-                App.Console.PrintMessage("\nSame Size Through All! No True Convergence Detected.\n")
+            # Track convergence status and preserve the FIRST converged step, and restore the status if it diverges again.
+            if error <= tolerance:
+                is_currently_converged = True
+                if convergence is None:
+                    convergence = (i + 1, i + 2)
             else:
-                App.Console.PrintMessage("\nNot Converged!\n")
+                is_currently_converged = False
+
+        if i != last_index:
+            App.Console.PrintMessage(" --> ")
+            
+    # Evaluate results in strict order of priority
+
+    if all_same:
+        App.Console.PrintMessage("\nSame Size Through All! No True Convergence Detected.\n")
+    elif convergence and is_currently_converged:
+        App.Console.PrintMessage(f"\n => Convergence achieved starting between run {convergence[0]} and run {convergence[1]}!\n")
+    else:
+        App.Console.PrintMessage("\nNot Converged!\n")

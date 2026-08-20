@@ -41,6 +41,7 @@ class ResultsViewDialog(QtWidgets.QDialog):
         layout.addLayout(btn_layout)
 
 def ShowResults(results):
+    
     if results:
         res_view = ResultsViewDialog(results, parent=Gui.getMainWindow())
         res_view.exec_()

@@ -60,21 +60,13 @@ class MeshStudyRunService:
             nodes = len(mesh_obj.FemMesh.Nodes)
             elements = len(mesh_obj.FemMesh.Volumes)
 
-            from core.exceptions import LimitExceededError
-            from objects.mesh_study import create_study_results
-
-            if check_mesh_limits(results, elements, nodes) == False: pass
-            else:
-                print("mesh limit == true")
-                break
-
             # Waiting intervals
             if progress_callback:
                 progress_callback(run_idx, len(sizes), "Waiting interval (a chance to stop)...")
             time.sleep(2)
             from services import send_signal
             if send_signal.get_signal("STOP"):
-                print("passed stop")
+                print("received stop")
                 send_signal.reset_signal()
                 break
             else:
@@ -113,14 +105,13 @@ class MeshStudyRunService:
         #Check covergence
         from core.convergence import check_convergence
         check_convergence(results, self.obj.Tolerance)
-        self.clear_results()
         return results
 
     def save_results(self, results: list):
         """Save resultes in backup folder"""
 
         user_dir = App.getUserAppDataDir()
-        save_dir = os.path.join(user_dir, "Mod", "MeshStudyWorkbench")
+        save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
         os.makedirs(save_dir, exist_ok=True)
         file_path = os.path.join(save_dir, "backup_resultes.json")
 
@@ -134,7 +125,7 @@ class MeshStudyRunService:
 
             clear = []
             user_dir = App.getUserAppDataDir()
-            save_dir = os.path.join(user_dir, "Mod", "MeshStudyWorkbench")
+            save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
             os.makedirs(save_dir, exist_ok=True)
             file_path = os.path.join(save_dir, "backup_resultes.json")
     
