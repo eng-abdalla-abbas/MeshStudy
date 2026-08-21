@@ -2,7 +2,7 @@
 A workbench that automates mesh convergence studies for FEM in FreeCAD software.
 
 ## Problem to solve:  
-mesh independency is a fundemental requirement in every finit element analysis (FEA), to make sure the simulation results are accurate enough, but in FreeCAD it has to be done manualy, repeating the simulation acrose different mesh sizes, which take so much time, and can be so annoing to do.  
+Mesh independency is a fundemental requirement in every finit element analysis (FEA), to make sure the simulation results are accurate enough, but in FreeCAD it has to be done manualy, repeating the simulation acrose different mesh sizes, which take so much time, and can be so annoing to do.  
 
 ## Solution:  
 **Mesh Study** is a modular FreeCAD workbench designed to automate mesh refinement studies for finite element analysis (FEA).It automatically runs simulationes with varying mesh sizes, and presents results clearly in tables and charts, saved as result objects nested under the main `MeshStudy` object in the tree view.  
