@@ -3,7 +3,6 @@ import json
 import os
 import time
 from strategies.registry import get_qoi_extractor, get_refinement_strategy
-from core.limits import check_mesh_limits
 from core.exceptions import MeshStudyError
 
 class MeshStudyRunService:
@@ -100,7 +99,7 @@ class MeshStudyRunService:
         user_dir = App.getUserAppDataDir()
         save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
         os.makedirs(save_dir, exist_ok=True)
-        file_path = os.path.join(save_dir,"resources", "data", "backup_resultes.json")
+        file_path = os.path.join(save_dir,"resources", "data", "backup_results.json")
 
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=4)
@@ -114,7 +113,7 @@ class MeshStudyRunService:
             user_dir = App.getUserAppDataDir()
             save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
             os.makedirs(save_dir, exist_ok=True)
-            file_path = os.path.join(save_dir,"resources", "data", "backup_resultes.json")
+            file_path = os.path.join(save_dir,"resources", "data", "backup_results.json")
     
             with open(file_path, "w", encoding="utf-8") as f:
                 json.dump(clear, f, indent=4)

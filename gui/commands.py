@@ -9,7 +9,10 @@ from gui.study_panel import MeshStudyTaskPanel
 from gui.run_dialog import RunProgressDialog
 from gui.results_view import ShowResults
 from core.exceptions import MeshStudyError
+from services.recover_results import prompt_recovery
 
+user_dir = App.getUserAppDataDir()
+backup_path = os.path.join(user_dir, 	"Mod", 	"MeshStudy", 	"resources", 	"data", 	"backup_results.json")
 
 class CmdAddMeshStudy:
     """Add a Mesh Study object to the document"""
@@ -48,7 +51,6 @@ class CmdAddMeshStudy:
 
     def GetResources(self): 
         
-        user_dir = App.getUserAppDataDir()
         icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "AddStudy.png")
     
         return {
@@ -62,6 +64,13 @@ class CmdRunMeshStudy:
     """Mesh Study Run command"""
     
     def Activated(self): 
+
+        # search for stored results
+        with open(backup_path) as f:
+            data = json.load(f)
+            if len(data) != 0:
+                prompt_recovery(backup_path)
+                return
 
         doc = App.ActiveDocument
         if not doc:
@@ -102,7 +111,6 @@ class CmdRunMeshStudy:
 
     def GetResources(self): 
 
-        user_dir = App.getUserAppDataDir()
         icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "RunStudy.png")
     
         return {
@@ -115,8 +123,14 @@ class CmdShowResults:
     
     def Activated(self):
 
-        # Show resultes
+        # search for stored results
+        with open(backup_path) as f:
+            data = json.load(f)
+            if len(data) != 0:
+                prompt_recovery(backup_path)
+                return
             
+        # Show resultes
         selection = Gui.Selection.getSelection()
         if selection and selection[0].TypeId == "App::FeaturePython":
             try:
@@ -131,7 +145,6 @@ class CmdShowResults:
 
     def GetResources(self):
 
-        user_dir = App.getUserAppDataDir()
         icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "ShowResults.png")
 
         return {

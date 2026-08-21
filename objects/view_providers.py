@@ -13,8 +13,8 @@ class MeshStudyViewProvider:
     def attach(self, vobj):
         self.ObjectName = vobj.Object.Name
         self.DocName = vobj.Object.Document.Name
-        self.node = coin.SoGroup()
-        vobj.addDisplayMode(self.node, "Default")
+        node = coin.SoGroup()
+        vobj.addDisplayMode(node, "Default")
 
     @property
     def Object(self):
@@ -65,8 +65,8 @@ class StudyResultViewProvider:
     def attach(self, vobj):
         self.ObjectName = vobj.Object.Name
         self.DocName = vobj.Object.Document.Name
-        self.node = coin.SoGroup()
-        vobj.addDisplayMode(self.node, "Default")
+        node = coin.SoGroup()
+        vobj.addDisplayMode(node, "Default")
 
     @property
     def Object(self):
