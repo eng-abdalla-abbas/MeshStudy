@@ -28,7 +28,7 @@ A workbench that automates mesh convergence studies for FEM in FreeCAD software.
 ![Run the study](resources/screenshots/run_study.png)
 5. **Executions**: Execution is done automatically, running simulations across different mesh sizes, you can stop it by pressing the stop button **between the meshing and solving steps**.
 ![Execution](resources/screenshots/execute_study.png)
-6. **Review Results**: Inspect the generated data table and chart, also the convergence report in the report view, and explore the individual result objects nested under the `MeshStudy` container in the tree view.
+6. **Review Results**: Inspect the generated data table and chart, also the **convergence report** in the report view, and explore the individual result objects nested under the `MeshStudy` container in the tree view.
 ![table resultes](resources/screenshots/results_table.png)
 ![chart resultes](resources/screenshots/results_chart.png)
 ![convergence report](resources/screenshots/conv_report.png)
@@ -58,4 +58,5 @@ MeshStudyWorkbench/
 ├── services/                  # Execution orchestration and run service
 └── predict/                   # Intelligence layer (for the future)
 
-If there's any issues, reportes or suggestions, please open a new issue at the [MeshStudy/issues](https://github.com/MeshStudy/issues) page, or contact me directly at <abdalla.engineering@gmail.com> .
+If there's any issues, reportes or suggestions, please open a new issue at the [MeshStudy/issues](https://github.com/MeshStudy/issues) page.
+Or simply contact me directly at <abdalla.engineering@gmail.com> .
