@@ -3,15 +3,21 @@
   <name>MeshStudy</name>
   <description>Automates mesh convergence studies for FEM.</description>
   <version>0.1.0</version>
-  <date>2026-08-19</date>
+  <date>2026-08-21</date>
   <fileversion>1</fileversion>
 
   <maintainer email="abdalla.engineering@gmail.com">Abdalla Abbas</maintainer>
   <license>LGPL-2.1-or-later</license>
   <url type="repository" branch="main">https://github.com/eng-abdalla-abbas/MeshStudy</url>
+  <url type="readme">https://github.com/eng-abdalla-abbas/MeshStudy/blob/main/README.md</url>
   <icon>resources/icons/Workbench.png</icon>
 
-  <depend>
-    <package version="0.20.0">freecad</package>
-  </depend>
+  <content>
+    <workbench>
+      <classname>MeshStudy</classname>
+      <subdirectory>./</subdirectory>
+    </workbench>
+  </content>
+
+  <depend condition="freecad >= 1.1.1">freecad</depend>
 </package>

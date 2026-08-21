@@ -21,22 +21,22 @@ Mesh independency is a fundemental requirement in every finit element analysis (
 
 ## 🛠️ Usage Guide
 
-1. **Preparation**: Open your FreeCAD document containing your 3D CAD model and a fully configured `FEM Analysis` container.
+1. **Preparation**: Open your FreeCAD document containing your 3D CAD model and a fully configured `FEM Analysis` container.  
 ![FEM Setup](resources/screenshots/fem_setup.png)
-2. **Initialize Study**: Select your 'analysis' container and switch to the **Mesh Study** workbench, then click **Add Study** to create a `MeshStudy` object in the tree view.
+2. **Initialize Study**: Select your 'analysis' container and switch to the **Mesh Study** workbench, then click **Add Study** to create a `MeshStudy` object in the tree view.  
 ![Add a study object](resources/screenshots/add_study.png)
-3. **Configure Parameters**: Adjust properties such as mesh sizes, refinement factors and quantity of interest from the task panel.
+3. **Configure Parameters**: Adjust properties such as mesh sizes, refinement factors and quantity of interest from the task panel.  
 ![study configuration](resources/screenshots/config_study.png)
-4. **Run Study**: Click **Run Study** to execute simulations across different mesh sizes automatically.
+4. **Run Study**: Click **Run Study** to execute simulations across different mesh sizes automatically.  
 ![Run the study](resources/screenshots/run_study.png)
-5. **Executions**: Execution is done automatically, running simulations across different mesh sizes, you can stop it by pressing the stop button **between the meshing and solving steps**.
+5. **Executions**: Execution is done automatically, running simulations across different mesh sizes, you can stop it by pressing the stop button **between the meshing and solving steps**.  
 ![Execution](resources/screenshots/execute_study.png)
-6. **Review Results**: Inspect the generated data table and chart, also the **convergence report** in the report view, and explore the individual result objects nested under the `MeshStudy` container in the tree view.
+6. **Review Results**: Inspect the generated data table and chart, also the **convergence report** in the report view, and explore the individual result objects nested under the `MeshStudy` container in the tree view.  
 ![table resultes](resources/screenshots/results_table.png)
 ![chart resultes](resources/screenshots/results_chart.png)
 ![convergence report](resources/screenshots/conv_report.png)
 ![Tree view objects](resources/screenshots/tree_objects.png)
-7. **unexpectable crashes and errors**: because the workbench is early released, you may face strange bugs or errors (specialy during execution), thus there is a backup system built in, it is trigared every time you try to run or show resultes.
+7. **unexpectable crashes and errors**: because the workbench is early released, you may face strange bugs or errors (specialy during execution), thus there is a backup system built in, it is trigared every time you try to run or show resultes.  
 ![Backup](resources/screenshots/recover_data.png)
 
 
