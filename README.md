@@ -22,6 +22,7 @@ Mesh independency is a fundemental requirement in every finit element analysis (
 ## 🛠️ Usage Guide
 
 1. **Preparation**: Open your FreeCAD document containing your 3D CAD model and a fully configured `FEM Analysis` container.  
+Important Note: Netgen Meshing is not supported yet. Gmsh Meshing only.   
 ![FEM Setup](resources/screenshots/fem_setup.png)
 2. **Initialize Study**: Select your 'analysis' container and switch to the **Mesh Study** workbench, then click **Add Study** to create a `MeshStudy` object in the tree view.  
 ![Add a study object](resources/screenshots/add_study.png)
