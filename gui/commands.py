@@ -46,7 +46,7 @@ class CmdAddMeshStudy:
         Gui.Control.showDialog(panel)
 
     def doubleClicked(self, vobj):
-            panel =  MeshStudyTaskPanel(Obj)
+            panel =  MeshStudyTaskPanel(vobj)
             Gui.Control.showDialog(panel)
 
     def GetResources(self): 
@@ -65,25 +65,48 @@ class CmdRunMeshStudy:
     
     def Activated(self): 
 
-        # search for stored results
-        with open(backup_path) as f:
-            data = json.load(f)
-            if len(data) != 0:
-                prompt_recovery(backup_path)
-                return
+        # search for stored results (backup)
+        if os.path.exists(backup_path):
+            try:
+                with open(backup_path) as f:
+                    data = json.load(f)
+                    if len(data) != 0:
+                        prompt_recovery(backup_path)
+                        return
+            except:
+                App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
+        else:
+            with open(backup_path, "w") as f:
+                clear = []
+                json.dump(clear, f)
 
         doc = App.ActiveDocument
         if not doc:
             App.Console.PrintError("No active document found.\n")
             return
-            
-        study_obj = doc.getObject("MeshStudy")
-        if not study_obj:
+
+        
+        # Get a list of all currently selected objects
+        selection = Gui.Selection.getSelection()
+
+        # Check if the user actually selected something
+        if not selection:
+            App.Console.PrintError("Please select a MeshStudy object first.\n")
+            return
+
+        obj = selection[0]
+
+        # Verify it's actually a MeshStudy object
+        if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
+            App.Console.PrintError("Selected object is not a MeshStudy.\n")
+            return   
+
+        if not obj:
             App.Console.PrintError("No 'MeshStudy' object found in the active document.\n")
             return
 
-        service = MeshStudyRunService(study_obj)
-        dialog = RunProgressDialog(total_runs=study_obj.NumberOfRuns, parent=Gui.getMainWindow())
+        service = MeshStudyRunService(obj)
+        dialog = RunProgressDialog(total_runs=obj.NumberOfRuns, parent=Gui.getMainWindow())
         dialog.show()
 
         try:
@@ -123,12 +146,20 @@ class CmdShowResults:
     
     def Activated(self):
 
-        # search for stored results
-        with open(backup_path) as f:
-            data = json.load(f)
-            if len(data) != 0:
-                prompt_recovery(backup_path)
-                return
+        # search for stored results (backup)
+        if os.path.exists(backup_path):
+            try:
+                with open(backup_path) as f:
+                    data = json.load(f)
+                    if len(data) != 0:
+                        prompt_recovery(backup_path)
+                        return
+            except:
+                App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
+        else:
+            with open(backup_path, "w") as f:
+                clear = []
+                json.dump(clear, f)
             
         # Show resultes
         selection = Gui.Selection.getSelection()
