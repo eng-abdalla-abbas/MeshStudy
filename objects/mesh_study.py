@@ -85,7 +85,23 @@ def create_mesh_study():
 def create_study_results(results):
     
     doc = App.ActiveDocument
-    obj = doc.getObject("MeshStudy")
+
+    # Get a list of all currently selected objects
+    selection = Gui.Selection.getSelection()
+    if not selection:
+        App.Console.PrintError("Please select a MeshStudy object first.\n")
+        return
+    
+    obj = selection[0]
+    
+    # Verify it's actually a MeshStudy object
+    if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
+        App.Console.PrintError("Selected object is not a MeshStudy.\n")
+        return   
+    
+    if not obj:
+        App.Console.PrintError("No 'MeshStudy' object found in the active document.\n")
+        return
 
     #creat child object
     name = (obj.AnalysisType).split()[0]
