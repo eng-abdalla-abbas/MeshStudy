@@ -11,7 +11,6 @@ class MeshStudy(Gui.Workbench):
         user_dir = App.getUserAppDataDir()
         icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "Workbench.png")
         Icon = icon_path if os.path.exists(icon_path) else ""
-        print(icon_path)
     except:
         print("image path error (initgui.py)")
         pass

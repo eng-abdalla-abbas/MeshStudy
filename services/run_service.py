@@ -4,7 +4,7 @@ import json
 import os
 import time
 from strategies.registry import get_qoi_extractor, get_refinement_strategy
-from core.exceptions import MeshStudyError
+from core.exceptions import MeshStudyError, MeshError
 
 class MeshStudyRunService:
     """The main excutive file, and the absloute coordinator"""
@@ -14,25 +14,17 @@ class MeshStudyRunService:
         self.doc = study_obj.Document
 
     def execute(self, progress_callback=None) -> list:
-        
-        doc = App.ActiveDocument
 
         # Get a list of all currently selected objects
         selection = Gui.Selection.getSelection()
         if not selection:
-            App.Console.PrintError("Please select a MeshStudy object first.\n")
-            return
+            raise MeshStudyError("Please select a MeshStudy object first.")
         
         obj = selection[0]
         
         # Verify it's actually a MeshStudy object
         if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
-            App.Console.PrintError("Selected object is not a MeshStudy.\n")
-            return   
-        
-        if not obj:
-            App.Console.PrintError("No 'MeshStudy' object found in the active document.\n")
-            return
+            raise MeshStudyError("Selected object is not a MeshStudy.")   
         
         # Check the links
         if not self.obj.TheStudyTarget:
@@ -65,6 +57,10 @@ class MeshStudyRunService:
             from fem.mesh_runner import MeshRunner
             MeshRunner.generate(self.obj, (max_size, min_size))
 
+            # Check mesh
+            if not mesh_obj.FemMesh or mesh_obj.FemMesh.Nodes == 0:
+                raise MeshError("Meshing failed or returned zero nodes.")
+
             # Check Elementes and nodes number
             nodes = len(mesh_obj.FemMesh.Nodes)
             elements = len(mesh_obj.FemMesh.Volumes)
@@ -72,7 +68,9 @@ class MeshStudyRunService:
             # Waiting intervals
             if progress_callback:
                 progress_callback(run_idx, len(sizes), "Waiting interval (a chance to stop)...")
-            time.sleep(2)
+            time.sleep(1)
+            time.sleep(1)
+            time.sleep(1)
 
             # Check if stop
             from services import send_signal
