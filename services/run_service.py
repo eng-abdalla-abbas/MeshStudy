@@ -29,20 +29,7 @@ class MeshStudyRunService:
         # Check the links
         if not self.obj.TheStudyTarget:
             raise MeshStudyError("No Analysis target selected in MeshStudy object.")
-        # link the unlinked
-        for item in obj.TheStudyTarget.Group:
-                if item.TypeId == "Fem::FemMeshShapeBaseObjectPython":
-                    obj.Mesher = "Gmsh"
-                    obj.InitialMeshSize = item.CharacteristicLengthMax.Value
-                    obj.MeshObject = item
-                elif item.TypeId == "Fem::FemMeshShapeNetgenObject":
-                    obj.Mesher = "Netgen"
-                    obj.InitialMeshSize = item.MaxSize
-                    obj.MeshObject = item
-                elif item.TypeId == "Fem::FemSolverObjectPython":
-                    obj.Solver = "CalculiX"
-                    obj.SolverObject = item
-        # continue Checking the links    
+    
         mesh_obj = self.obj.MeshObject
         solver_obj = self.obj.SolverObject
         if not mesh_obj or not solver_obj:
@@ -102,6 +89,8 @@ class MeshStudyRunService:
 
             from fem.solver_runner import SolverRunner
             SolverRunner.solve(obj)
+
+            print("solved")
 
             # Results extraction
             result_obj = self.doc.getObject("CCX_Results") or self.doc.getObject(f"CCX_Results_{solver_obj.Name}")
