@@ -25,15 +25,32 @@ class MeshStudyRunService:
         # Verify it's actually a MeshStudy object
         if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
             raise MeshStudyError("Selected object is not a MeshStudy.")   
-        
+
         # Check the links
         if not self.obj.TheStudyTarget:
             raise MeshStudyError("No Analysis target selected in MeshStudy object.")
-            
+        # link the unlinked
+        for item in obj.TheStudyTarget.Group:
+                if item.TypeId == "Fem::FemMeshShapeBaseObjectPython":
+                    obj.Mesher = "Gmsh"
+                    obj.InitialMeshSize = item.CharacteristicLengthMax.Value
+                    obj.MeshObject = item
+                elif item.TypeId == "Fem::FemMeshShapeNetgenObject":
+                    obj.Mesher = "Netgen"
+                    obj.InitialMeshSize = item.MaxSize
+                    obj.MeshObject = item
+                elif item.TypeId == "Fem::FemSolverObjectPython":
+                    obj.Solver = "CalculiX"
+                    obj.SolverObject = item
+        # continue Checking the links    
         mesh_obj = self.obj.MeshObject
         solver_obj = self.obj.SolverObject
         if not mesh_obj or not solver_obj:
             raise MeshStudyError("Mesh object or Solver object is missing from the analysis.")
+
+        # Check the Mesh size
+        if obj.InitialMeshSize <= 0.0:
+            raise MeshStudyError("Initial Mesh Size must be greater than zero. Please configure the study parameters.")
 
         # get the Refinement method
         qoi_extractor = get_qoi_extractor(self.obj.QuantityOfInterest)

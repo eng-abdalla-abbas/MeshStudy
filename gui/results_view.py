@@ -1,7 +1,7 @@
 try:
-    from PySide2 import QtWidgets, QtCore
+    from PySide2 import QtWidgets
 except ImportError:
-    from PySide import QtWidgets, QtCore
+    from PySide import QtWidgets
 
 import FreeCADGui as Gui
 from gui.widgets.run_summary import RunSummaryTable

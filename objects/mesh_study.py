@@ -47,7 +47,8 @@ class MeshStudyProxy:
 class StudyResultProxy:
         def __init__(self, obj, results, child_index):
                 obj.Proxy = self
-                self.data = results
+                if results is not None:
+                    self.data = results
                 self.indx =  child_index
                 self.indexed_results = f"StudyResults{self.indx}"
                 self.setup_properties(obj)

@@ -3,7 +3,7 @@ import FreeCADGui as Gui
 import os
 
 class MeshStudy(Gui.Workbench):
-    MenuText = "Mesh Study v0.1"
+    MenuText = "Mesh Study"
     ToolTip = "A professional Workbench for Mesh Convergence Study"
 
     try:

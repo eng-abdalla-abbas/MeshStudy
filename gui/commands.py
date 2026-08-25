@@ -80,6 +80,7 @@ class CmdRunMeshStudy:
                 clear = []
                 json.dump(clear, f)
 
+
         doc = App.ActiveDocument
         if not doc:
             App.Console.PrintError("No active document found.\n")
@@ -104,6 +105,7 @@ class CmdRunMeshStudy:
         if not obj:
             App.Console.PrintError("No 'MeshStudy' object found in the active document.\n")
             return
+        
 
         service = MeshStudyRunService(obj)
         dialog = RunProgressDialog(total_runs=obj.NumberOfRuns, parent=Gui.getMainWindow())

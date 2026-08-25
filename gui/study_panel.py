@@ -2,9 +2,9 @@ import FreeCAD as App
 import FreeCADGui as Gui
 
 try:
-    from PySide2 import QtWidgets, QtCore
+    from PySide2 import QtWidgets
 except ImportError:
-    from PySide import QtWidgets, QtCore
+    from PySide import QtWidgets
 
 class MeshStudyTaskPanel:
     
@@ -16,7 +16,9 @@ class MeshStudyTaskPanel:
         layout = QtWidgets.QFormLayout(self.form)
 
         #Enteries
-        self.size_spin = QtWidgets.QSpinBox()
+        self.size_spin = QtWidgets.QDoubleSpinBox()
+        self.size_spin.setDecimals(2)
+        self.size_spin.setSuffix(" mm")
         self.size_spin.setValue(self.obj.InitialMeshSize)
         
         self.runs_spin = QtWidgets.QSpinBox()
