@@ -1,4 +1,5 @@
 import FreeCAD as App
+from ..core.exceptions import MeshError
 
 class MeshRunner:
     @staticmethod
@@ -22,13 +23,7 @@ class MeshRunner:
             gmsh.create_mesh()
                     
         elif mesh_obj.TypeId == "Fem::FemMeshShapeNetgenObject":
-            App.Console.PrintError("Netgen Mesher is not supported yet! (Mesh Study Workbench)")
-            """mesh_obj.MaxSize = size[0]
-            mesh_obj.MinSize = size[1]
-            mesh_obj.touch()
-            netgen = nt.NetgenTools(mesh_obj)
-            netgen.prepare()
-            netgen.compute()"""
+            raise MeshError("Netgen Mesher is not supported yet! (Mesh Study Workbench)")
 
         obj.recompute()
         App.ActiveDocument.recompute()

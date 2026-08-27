@@ -1,11 +1,8 @@
-try:
-    from PySide2 import QtWidgets
-except ImportError:
-    from PySide import QtWidgets
+from PySide import QtWidgets
 
 import FreeCADGui as Gui
-from gui.widgets.run_summary import RunSummaryTable
-from gui.widgets.convergence_chart import ConvergenceChartWidget
+from freecad.MeshStudy.gui.widgets.run_summary import RunSummaryTable
+from freecad.MeshStudy.gui.widgets.convergence_chart import ConvergenceChartWidget
 
 class ResultsViewDialog(QtWidgets.QDialog):
 

@@ -1,11 +1,8 @@
-import FreeCAD as App
 import json
 import os 
+from ..__init__ import ADDON_PATH
 
-user_dir = App.getUserAppDataDir()
-save_dir = os.path.join(user_dir, "Mod", "MeshStudy", "services")
-os.makedirs(save_dir, exist_ok=True)
-file_path = os.path.join(save_dir, "service_signals.json")
+file_path = os.path.join(ADDON_PATH, "services", "service_signals.json")
 data = []
 
 def send(signal):

@@ -1,8 +1,7 @@
 import FreeCAD as App
 import os
 import sys
-import shutil
-from core.exceptions import SolverError
+from freecad.MeshStudy.core.exceptions import SolverError
 
 class SolverRunner:
     @staticmethod

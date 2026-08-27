@@ -1,7 +1,4 @@
-try:
-    from PySide2 import QtWidgets
-except ImportError:
-    from PySide import QtWidgets
+from PySide import QtWidgets
 
 HAS_MATPLOTLIB = True
 try:

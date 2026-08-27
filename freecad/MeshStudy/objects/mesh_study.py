@@ -78,7 +78,7 @@ def create_mesh_study():
     MeshStudyProxy(obj)
     
     if App.GuiUp:
-        from objects.view_providers import MeshStudyViewProvider
+        from freecad.MeshStudy.objects.view_providers import MeshStudyViewProvider
         MeshStudyViewProvider(obj.ViewObject)
         
     return obj
@@ -90,14 +90,14 @@ def create_study_results(results):
     # Get a list of all currently selected objects
     selection = Gui.Selection.getSelection()
     if not selection:
-        App.Console.PrintError("Please select a MeshStudy object first.\n")
+        App.Console.PrintError("Please select a MeshStudy object to hold the resultes objestes.\n")
         return
     
     obj = selection[0]
     
     # Verify it's actually a MeshStudy object
     if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
-        App.Console.PrintError("Selected object is not a MeshStudy.\n")
+        App.Console.PrintError("Please select a MeshStudy object to hold the resultes objestes.\n")
         return   
     
     if not obj:
@@ -118,7 +118,7 @@ def create_study_results(results):
     
     # open results window
     if App.GuiUp:
-        from objects.view_providers import StudyResultViewProvider
+        from freecad.MeshStudy.objects.view_providers import StudyResultViewProvider
         StudyResultViewProvider(child.ViewObject)
         
     return child

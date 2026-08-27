@@ -3,16 +3,14 @@ import FreeCADGui as Gui
 import json
 import os
 
-from objects.mesh_study import create_mesh_study, create_study_results
-from services.run_service import MeshStudyRunService
-from gui.study_panel import MeshStudyTaskPanel
-from gui.run_dialog import RunProgressDialog
-from gui.results_view import ShowResults
-from core.exceptions import MeshStudyError
-from services.recover_results import prompt_recovery
-
-user_dir = App.getUserAppDataDir()
-backup_path = os.path.join(user_dir, 	"Mod", 	"MeshStudy", 	"resources", 	"data", 	"backup_results.json")
+from freecad.MeshStudy.objects.mesh_study import create_mesh_study, create_study_results
+from freecad.MeshStudy.services.run_service import MeshStudyRunService
+from freecad.MeshStudy.gui.study_panel import MeshStudyTaskPanel
+from freecad.MeshStudy.gui.run_dialog import RunProgressDialog
+from freecad.MeshStudy.gui.results_view import ShowResults
+from freecad.MeshStudy.core.exceptions import MeshStudyError
+from freecad.MeshStudy.services.recover_results import prompt_recovery
+from ..__init__ import ADDON_PATH, BACKUP_PATH
 
 class CmdAddMeshStudy:
     """Add a Mesh Study object to the document"""
@@ -51,7 +49,7 @@ class CmdAddMeshStudy:
 
     def GetResources(self): 
         
-        icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "AddStudy.png")
+        icon_path = os.path.join(ADDON_PATH, "..", "..", "Resources", "Icons", "AddStudy.png")
     
         return {
             'Pixmap': icon_path if os.path.exists(icon_path) else '',
@@ -66,17 +64,18 @@ class CmdRunMeshStudy:
     def Activated(self): 
 
         # search for stored results (backup)
-        if os.path.exists(backup_path):
+        if os.path.exists(BACKUP_PATH):
             try:
-                with open(backup_path) as f:
+                with open(BACKUP_PATH) as f:
                     data = json.load(f)
                     if len(data) != 0:
-                        prompt_recovery(backup_path)
+                        prompt_recovery()
                         return
             except:
                 App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
         else:
-            with open(backup_path, "w") as f:
+            os.makedirs(BACKUP_PATH, exist_ok = True)
+            with open(BACKUP_PATH, "w") as f:
                 clear = []
                 json.dump(clear, f)
 
@@ -136,7 +135,7 @@ class CmdRunMeshStudy:
 
     def GetResources(self): 
 
-        icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "RunStudy.png")
+        icon_path = os.path.join(ADDON_PATH, "..", "..", "Resources", "Icons", "RunStudy.png")
     
         return {
             'Pixmap': icon_path if os.path.exists(icon_path) else '',
@@ -149,17 +148,18 @@ class CmdShowResults:
     def Activated(self):
 
         # search for stored results (backup)
-        if os.path.exists(backup_path):
+        if os.path.exists(BACKUP_PATH):
             try:
-                with open(backup_path) as f:
+                with open(BACKUP_PATH) as f:
                     data = json.load(f)
                     if len(data) != 0:
-                        prompt_recovery(backup_path)
+                        prompt_recovery()
                         return
             except:
                 App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
         else:
-            with open(backup_path, "w") as f:
+            os.makedirs(BACKUP_PATH, exist_ok = True)
+            with open(BACKUP_PATH, "w") as f:
                 clear = []
                 json.dump(clear, f)
             
@@ -178,7 +178,7 @@ class CmdShowResults:
 
     def GetResources(self):
 
-        icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "ShowResults.png")
+        icon_path = os.path.join(ADDON_PATH, "..", "..", "Resources", "Icons", "ShowResults.png")
 
         return {
             'Pixmap': icon_path if os.path.exists(icon_path) else '',

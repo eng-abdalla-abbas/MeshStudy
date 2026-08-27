@@ -1,7 +1,4 @@
-try:
-    from PySide2 import QtWidgets, QtCore
-except ImportError:
-    from PySide import QtWidgets, QtCore
+from PySide import QtWidgets
 
 class StudyProgressBar(QtWidgets.QWidget):
     """Study progress bar"""

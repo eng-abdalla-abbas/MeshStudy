@@ -1,10 +1,9 @@
-import FreeCAD as App
 import FreeCADGui as Gui
 import json
-import os
 import time
-from strategies.registry import get_qoi_extractor, get_refinement_strategy
-from core.exceptions import MeshStudyError, MeshError
+from freecad.MeshStudy.strategies.registry import get_qoi_extractor, get_refinement_strategy
+from freecad.MeshStudy.core.exceptions import MeshStudyError, MeshError
+from ..__init__ import BACKUP_PATH
 
 class MeshStudyRunService:
     """The main excutive file, and the absloute coordinator"""
@@ -58,7 +57,7 @@ class MeshStudyRunService:
                 progress_callback(run_idx, len(sizes), f"Meshing (Size: {min_size})...")
 
             # Meshing
-            from fem.mesh_runner import MeshRunner
+            from freecad.MeshStudy.fem.mesh_runner import MeshRunner
             MeshRunner.generate(self.obj, (max_size, min_size))
 
             # Check mesh
@@ -77,7 +76,7 @@ class MeshStudyRunService:
             time.sleep(1)
 
             # Check if stop
-            from services import send_signal
+            from freecad.MeshStudy.services import send_signal
             if send_signal.get_signal("STOP"):
                 print("received stop")
                 send_signal.reset_signal()
@@ -87,7 +86,7 @@ class MeshStudyRunService:
             if progress_callback:
                 progress_callback(run_idx, len(sizes), "Solving with CalculiX...")
 
-            from fem.solver_runner import SolverRunner
+            from freecad.MeshStudy.fem.solver_runner import SolverRunner
             SolverRunner.solve(obj)
 
             print("solved")
@@ -110,32 +109,20 @@ class MeshStudyRunService:
             self.save_results(results)
 
         #Check covergence
-        from core.convergence import check_convergence
+        from freecad.MeshStudy.core.convergence import check_convergence
         check_convergence(results, self.obj.Tolerance)
         return results
 
     def save_results(self, results: list):
         """Save resultes in backup folder"""
 
-        user_dir = App.getUserAppDataDir()
-        save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
-        os.makedirs(save_dir, exist_ok=True)
-        file_path = os.path.join(save_dir,"resources", "data", "backup_results.json")
-
-        with open(file_path, "w", encoding="utf-8") as f:
+        with open(BACKUP_PATH, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=4)
-        
-        App.Console.PrintMessage(f"Results saved successfully to: {file_path}\n")
 
     def clear_results(self):
             """clear resultes in backup folder"""
 
             clear = []
-            user_dir = App.getUserAppDataDir()
-            save_dir = os.path.join(user_dir, "Mod", "MeshStudy")
-            os.makedirs(save_dir, exist_ok=True)
-            file_path = os.path.join(save_dir,"resources", "data", "backup_results.json")
-    
-            with open(file_path, "w", encoding="utf-8") as f:
+            with open(BACKUP_PATH, "w", encoding="utf-8") as f:
                 json.dump(clear, f, indent=4)
             

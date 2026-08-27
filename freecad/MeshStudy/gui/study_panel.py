@@ -1,10 +1,7 @@
 import FreeCAD as App
 import FreeCADGui as Gui
 
-try:
-    from PySide2 import QtWidgets
-except ImportError:
-    from PySide import QtWidgets
+from PySide import QtWidgets
 
 class MeshStudyTaskPanel:
     
