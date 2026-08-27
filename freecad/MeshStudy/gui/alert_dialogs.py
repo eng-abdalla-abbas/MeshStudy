@@ -1,7 +1,4 @@
-try:
-    from PySide2 import QtWidgets
-except ImportError:
-    from PySide import QtWidgets
+from PySide import QtWidgets
 
 def show_limit_warning(parent, message: str) -> bool:
     """Limites Warning message"""

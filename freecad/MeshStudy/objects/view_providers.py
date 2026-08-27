@@ -2,7 +2,7 @@ import FreeCADGui as Gui
 import FreeCAD as App
 import os
 import pivy.coin as coin
-
+from ..__init__ import ADDON_PATH
 
 class MeshStudyViewProvider:
     def __init__(self, vobj):
@@ -32,14 +32,14 @@ class MeshStudyViewProvider:
     
     def getIcon(self):
         """Tree object icon path"""
-        user_dir = App.getUserAppDataDir()
-        icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "MeshStudy.png")
-    
+
+        icon_path = os.path.join(ADDON_PATH, "..", "..", "Resources", "Icons", "MeshStudy.png")
+
         return icon_path if os.path.exists(icon_path) else ""
 
     def doubleClicked(self, vobj):
 
-        from gui.study_panel import MeshStudyTaskPanel
+        from freecad.MeshStudy.gui.study_panel import MeshStudyTaskPanel
         panel = MeshStudyTaskPanel(self.Object)
         Gui.Control.showDialog(panel)
 
@@ -77,15 +77,14 @@ class StudyResultViewProvider:
 
     def getIcon(self):
         """Tree object icon path"""
-        user_dir = App.getUserAppDataDir()
-        icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "Result.png")
+        icon_path = os.path.join(ADDON_PATH, "..", "..", "Resources", "Icons", "Result.png")
     
         return icon_path if os.path.exists(icon_path) else ""
 
     def doubleClicked(self, vobj):
 
         import json
-        from gui.results_view import ShowResults
+        from freecad.MeshStudy.gui.results_view import ShowResults
 
         results_attr = self.Object.Proxy.indexed_results
         r_list = json.loads(getattr(self.Object, results_attr)[0])

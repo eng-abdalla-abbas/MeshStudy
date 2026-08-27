@@ -1,9 +1,6 @@
-try:
-    from PySide2 import QtWidgets, QtCore
-except ImportError:
-    from PySide import QtWidgets, QtCore
+from PySide import QtWidgets, QtCore
 
-from gui.widgets.progress_bar import StudyProgressBar
+from freecad.MeshStudy.gui.widgets.progress_bar import StudyProgressBar
 
 class RunProgressDialog(QtWidgets.QDialog):
 
@@ -31,7 +28,7 @@ class RunProgressDialog(QtWidgets.QDialog):
         QtWidgets.QApplication.processEvents()
 
     def on_stop_clicked(self):
-        from services import send_signal
+        from freecad.MeshStudy.services import send_signal
         send_signal.send("STOP")
         self.stop_button.setEnabled(False)
         self.stop_button.setText("Stopping...")

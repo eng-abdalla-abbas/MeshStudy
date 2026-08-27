@@ -1,9 +1,10 @@
 import json
-from objects.mesh_study import create_study_results
+from freecad.MeshStudy.objects.mesh_study import create_study_results
 from PySide.QtWidgets import QMessageBox
+from ..__init__ import BACKUP_PATH
 
 
-def prompt_recovery(path):
+def prompt_recovery():
     msg_box = QMessageBox()
     msg_box.setWindowTitle("Data Recovery Found")
     msg_box.setText("Recovered data from a previous session was detected.")
@@ -21,16 +22,24 @@ def prompt_recovery(path):
 
     r_list =  []
     if msg_box.clickedButton() == recover_btn:
+
         # Code to handle recovery
-        with open(path, "r") as f:
+        with open(BACKUP_PATH, "r") as f:
             r_list = json.load(f)
         create_study_results(r_list)
+        
+        print("Data recovered successfully.")
+
+        # clear backup file
+        with open(BACKUP_PATH, "w") as f:
+            json.dump(r_list, f)
 
         return True
     else:
         # Code to handle forfeit/clean up recovery files
-        with open(path, "w") as f:
+        with open(BACKUP_PATH, "w") as f:
             json.dump(r_list, f)
+
         print("User chose to forfeit.")
 
         return False

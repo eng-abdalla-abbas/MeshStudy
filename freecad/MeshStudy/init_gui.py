@@ -1,15 +1,15 @@
-import FreeCAD as App
 import FreeCADGui as Gui
 import os
+from .__init__ import ADDON_PATH
 
 class MeshStudy(Gui.Workbench):
-    MenuText = "Mesh Study v0.1"
+    MenuText = "Mesh Study"
     ToolTip = "A professional Workbench for Mesh Convergence Study"
 
     try:
     # Dynamic Path
-        user_dir = App.getUserAppDataDir()
-        icon_path = os.path.join(user_dir, "Mod", "MeshStudy",  "resources", "icons", "Workbench.png")
+        icon_path = os.path.join(ADDON_PATH, "..", ".." ,"Resources", "Icons", "Workbench.png")
+        print(icon_path)
         Icon = icon_path if os.path.exists(icon_path) else ""
     except:
         print("image path error (initgui.py)")
@@ -17,7 +17,7 @@ class MeshStudy(Gui.Workbench):
 
     def Initialize(self):
 
-        from gui.commands import setup_commands
+        from freecad.MeshStudy.gui.commands import setup_commands
         self.list = setup_commands()
         
         self.appendToolbar("Mesh Study Tools", self.list)
