@@ -2,7 +2,7 @@
 <package format="1">
   <name>MeshStudy</name>
   <description>Automates mesh convergence studies for FEM.</description>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <date>2026-08-21</date>
 
   <maintainer email="abdalla.engineering@gmail.com">Abdalla Abbas</maintainer>
@@ -19,5 +19,5 @@
   </content>
 
   <freecadmin>1.1.1</freecadmin>
-  
+
 </package>
