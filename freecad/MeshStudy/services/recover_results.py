@@ -31,6 +31,7 @@ def prompt_recovery():
         print("Data recovered successfully.")
 
         # clear backup file
+        r_list =  []
         with open(BACKUP_PATH, "w") as f:
             json.dump(r_list, f)
 
