@@ -9,11 +9,9 @@ class MeshStudy(Gui.Workbench):
     try:
     # Dynamic Path
         icon_path = os.path.join(ADDON_PATH, "..", ".." ,"Resources", "Icons", "Workbench.png")
-        print(icon_path)
         Icon = icon_path if os.path.exists(icon_path) else ""
     except:
-        print("image path error (initgui.py)")
-        pass
+        Gui.Console.PrintError("Error loading MeshStudy icon.")
 
     def Initialize(self):
 
