@@ -7,9 +7,18 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - **Backup System**: Moved the backup file `backup_resultes.json` from the install directory `./Resources/data/`, to the freecad user data directory `FreeCAD.getUserAppDataDir()/MeshStudyWorkbench/`.
 - **Signal System**: Removed all the singnals files, replaced the "stop" signal for a check function "is_stoped" that checks the dialog object attribute "stoped".
+- **Package Metadata**: Restored the required `xmlns` on `package.xml` and bumped the version to `0.1.2`.
 
 ### Fixed
-- **Fixed Icon Path Mismatch**: Changed the icons folder first case (from `./icons/` to `./Icons/`)
+- **Fixed Icon Path Mismatch**: Changed the icons folder first case (from `./icons/` to `./Icons/`).
+- **Fixed Backup Folder Creation**: `os.makedirs` now creates the user-data directory, not the backup JSON file path.
+- **Fixed Dirty Addon Directory**: Runtime backup (and the old stop signal) no longer write into the git-tracked install folder.
+- **Fixed Stop Button**: The wait interval pumps Qt events, so Stop can be clicked instead of freezing during `sleep`.
+- **Fixed Stop Without Results**: Stopping before any completed solve no longer creates an empty result object or clears backup incorrectly.
+- **Fixed Run Object Mix-up**: The run service uses the MeshStudy object it was given, instead of re-reading the current selection mid-run.
+- **Fixed Recovery Flow**: Choosing Forfeit no longer aborts Run / Show Results; only Recover returns early.
+- **Fixed Missing Backup Directory on Save**: `save_results` creates `DATA_DIR` before writing `backup_results.json`.
+
 
 ## [0.1.1] - 2026-08-27
 
