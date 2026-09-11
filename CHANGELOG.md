@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.2] - 2026-09-10
+
+### Changed
+- **Backup System**: Moved the backup file `backup_resultes.json` from the install directory `./Resources/data/`, to the freecad user data directory `./v1-1/MeshStudyWorkbench`.
+- **Signal System**: Removed all the singnals files, replaced the "stop" signal for a check function "is_stoped" that checks the dialog object attribute "stoped".
+
+### Fixed
+- **Fixed Icon Path Mismatch**: Changed the icons folder first case (from `./icon/` to `./Icon/`)
+
 ## [0.1.1] - 2026-08-27
 
 ### Changed
