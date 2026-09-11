@@ -1,9 +1,9 @@
-import FreeCADGui as Gui
 import json
+import os
 from PySide import QtCore
 from freecad.MeshStudy.strategies.registry import get_qoi_extractor, get_refinement_strategy
 from freecad.MeshStudy.core.exceptions import MeshStudyError, MeshError
-from ..__init__ import BACKUP_PATH
+from ..__init__ import BACKUP_PATH, DATA_DIR
 
 class MeshStudyRunService:
     """The main excutive file, and the absloute coordinator"""
@@ -72,11 +72,11 @@ class MeshStudyRunService:
             while QtCore.QTime.currentTime() < end_time:
 
                 QtCore.QCoreApplication.processEvents(QtCore.QEventLoop.AllEvents, 100)
-                if dialog.is_stoped():
+                if dialog and dialog.is_stoped():
                     break
 
             # check if stoped
-            if dialog.is_stoped():
+            if dialog and dialog.is_stoped():
                 break
                 
             # Running CalculiX
@@ -111,6 +111,7 @@ class MeshStudyRunService:
     def save_results(self, results: list):
         """Save resultes in backup folder"""
 
+        os.makedirs(DATA_DIR, exist_ok = True)
         with open(BACKUP_PATH, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=4)
 

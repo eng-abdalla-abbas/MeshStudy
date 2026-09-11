@@ -41,6 +41,6 @@ def prompt_recovery():
         with open(BACKUP_PATH, "w") as f:
             json.dump(r_list, f)
 
-        print("User chose to forfeit.")
+        print("User chose to forfeit data.")
 
         return False

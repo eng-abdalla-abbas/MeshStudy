@@ -11,7 +11,7 @@ class MeshStudy(Gui.Workbench):
         icon_path = os.path.join(ADDON_PATH, "..", ".." ,"Resources", "Icons", "Workbench.png")
         Icon = icon_path if os.path.exists(icon_path) else ""
     except:
-        Gui.Console.PrintError("Error loading MeshStudy icon.")
+        pass
 
     def Initialize(self):
 

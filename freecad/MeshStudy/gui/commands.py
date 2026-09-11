@@ -69,8 +69,8 @@ class CmdRunMeshStudy:
                 with open(BACKUP_PATH) as f:
                     data = json.load(f)
                     if len(data) != 0:
-                        prompt_recovery()
-                        return
+                        if prompt_recovery():
+                            return   
             except:
                 App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
         else:
@@ -85,7 +85,6 @@ class CmdRunMeshStudy:
             App.Console.PrintError("No active document found.\n")
             return
 
-        
         # Get a list of all currently selected objects
         selection = Gui.Selection.getSelection()
 
@@ -120,11 +119,11 @@ class CmdRunMeshStudy:
             dialog.accept()
 
             # result child object
-            create_study_results(results)
-            ShowResults(results)
-
-            # delete backup data
-            service.clear_results()
+            if results:
+                if create_study_results(results):
+                    # delete backup data:
+                    service.clear_results()
+                ShowResults(results)
 
         except MeshStudyError as e:
             dialog.reject()
@@ -153,8 +152,8 @@ class CmdShowResults:
                 with open(BACKUP_PATH) as f:
                     data = json.load(f)
                     if len(data) != 0:
-                        prompt_recovery()
-                        return
+                        if prompt_recovery():
+                            return
             except:
                 App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
         else:
