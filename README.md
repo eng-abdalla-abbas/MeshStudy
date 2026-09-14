@@ -1,4 +1,6 @@
 # Mesh Study
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22744056.svg)](https://doi.org/10.5281/zenodo.22744056)
+
 A workbench that automates mesh convergence studies for FEM in FreeCAD software.
 
 ## Problem to solve:  
