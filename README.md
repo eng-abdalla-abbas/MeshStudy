@@ -69,6 +69,7 @@ MeshStudy/
 ├── LICENSE                    # License information
 ├── package.xml                # Addon Manager metadata
 └── README.md                  # Project documentation
+```
 
-If there are any issues, reports, or suggestions, please open a new issue at the [MeshStudy Issues](https://github.com/eng-abdalla-abbas/MeshStudy/issues) page.
+If there are any issues, reports, or suggestions, please open a new issue at the [MeshStudy Issues](https://github.com/eng-abdalla-abbas/MeshStudy/issues) page.  
 Or simply contact me directly at <abdalla.engineering@gmail.com>.
