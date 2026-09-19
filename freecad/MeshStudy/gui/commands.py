@@ -95,7 +95,7 @@ class CmdRunMeshStudy:
 
         obj = selection[0]
 
-        # Verify it's actually a MeshStudy object
+        # Verify if it's actually a MeshStudy object
         if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
             App.Console.PrintError("Selected object is not a MeshStudy.\n")
             return   

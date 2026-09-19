@@ -1,9 +1,11 @@
+import FreeCAD as App
 import json
 import os
 from PySide import QtCore
 from freecad.MeshStudy.strategies.registry import get_qoi_extractor, get_refinement_strategy
 from freecad.MeshStudy.core.exceptions import MeshStudyError, MeshError
 from ..__init__ import BACKUP_PATH, DATA_DIR
+from freecad.MeshStudy.objects.mesh_study import check_study_parameters
 
 class MeshStudyRunService:
     """The main excutive file, and the absloute coordinator"""
@@ -20,19 +22,13 @@ class MeshStudyRunService:
         if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
             raise MeshStudyError("Selected object is not a MeshStudy.")   
 
-        # Check the links
-        if not self.obj.TheStudyTarget:
-            raise MeshStudyError("No Analysis target selected in MeshStudy object.")
-    
-        mesh_obj = self.obj.MeshObject
-        solver_obj = self.obj.SolverObject
-        if not mesh_obj or not solver_obj:
-            raise MeshStudyError("Mesh object or Solver object is missing from the analysis.")
-
-        # Check the Mesh size
-        if obj.InitialMeshSize <= 0.0:
-            raise MeshStudyError("Initial Mesh Size must be greater than zero. Please configure the study parameters.")
-
+        # Check the study parameters
+        para_errors = check_study_parameters(obj)
+        if para_errors:
+            for err in para_errors:
+                App.Console.PrintError(f"{err}\n")
+            raise MeshStudyError("Invalid parameters for the MeshStudy object.")
+        
         # get the Refinement method
         qoi_extractor = get_qoi_extractor(self.obj.QuantityOfInterest)
         refinement_strat = get_refinement_strategy()
@@ -43,7 +39,8 @@ class MeshStudyRunService:
             self.obj.NumberOfRuns, 
             self.obj.RefinementFactor
         )
-
+        mesh_obj = obj.MeshObject
+        solver_obj = obj.SolverObject
         results = []
         
         # Repeate along the runs
