@@ -31,6 +31,7 @@ def prompt_recovery():
         print("Data recovered successfully.")
 
         # clear backup file
+        r_list =  []
         with open(BACKUP_PATH, "w") as f:
             json.dump(r_list, f)
 
@@ -40,6 +41,6 @@ def prompt_recovery():
         with open(BACKUP_PATH, "w") as f:
             json.dump(r_list, f)
 
-        print("User chose to forfeit.")
+        print("User chose to forfeit data.")
 
         return False

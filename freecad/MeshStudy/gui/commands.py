@@ -10,7 +10,7 @@ from freecad.MeshStudy.gui.run_dialog import RunProgressDialog
 from freecad.MeshStudy.gui.results_view import ShowResults
 from freecad.MeshStudy.core.exceptions import MeshStudyError
 from freecad.MeshStudy.services.recover_results import prompt_recovery
-from ..__init__ import ADDON_PATH, BACKUP_PATH
+from ..__init__ import ADDON_PATH, BACKUP_PATH, DATA_DIR
 
 class CmdAddMeshStudy:
     """Add a Mesh Study object to the document"""
@@ -69,12 +69,12 @@ class CmdRunMeshStudy:
                 with open(BACKUP_PATH) as f:
                     data = json.load(f)
                     if len(data) != 0:
-                        prompt_recovery()
-                        return
+                        if prompt_recovery():
+                            return   
             except:
                 App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
         else:
-            os.makedirs(BACKUP_PATH, exist_ok = True)
+            os.makedirs(DATA_DIR, exist_ok = True)
             with open(BACKUP_PATH, "w") as f:
                 clear = []
                 json.dump(clear, f)
@@ -85,7 +85,6 @@ class CmdRunMeshStudy:
             App.Console.PrintError("No active document found.\n")
             return
 
-        
         # Get a list of all currently selected objects
         selection = Gui.Selection.getSelection()
 
@@ -116,15 +115,15 @@ class CmdRunMeshStudy:
             def progress_update(step, total, msg):
                 dialog.update_step(step, msg)
 
-            results = service.execute(progress_callback=progress_update)
+            results = service.execute(progress_callback=progress_update, dialog=dialog)
             dialog.accept()
 
             # result child object
-            create_study_results(results)
-            ShowResults(results)
-
-            # delete backup data
-            service.clear_results()
+            if results:
+                if create_study_results(results):
+                    # delete backup data:
+                    service.clear_results()
+                ShowResults(results)
 
         except MeshStudyError as e:
             dialog.reject()
@@ -153,12 +152,12 @@ class CmdShowResults:
                 with open(BACKUP_PATH) as f:
                     data = json.load(f)
                     if len(data) != 0:
-                        prompt_recovery()
-                        return
+                        if prompt_recovery():
+                            return
             except:
                 App.Console.PrintError("Backup Check Failed: can't open/read the backup data file.\n")
         else:
-            os.makedirs(BACKUP_PATH, exist_ok = True)
+            os.makedirs(DATA_DIR, exist_ok = True)
             with open(BACKUP_PATH, "w") as f:
                 clear = []
                 json.dump(clear, f)

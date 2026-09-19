@@ -1,9 +1,9 @@
-import FreeCADGui as Gui
 import json
-import time
+import os
+from PySide import QtCore
 from freecad.MeshStudy.strategies.registry import get_qoi_extractor, get_refinement_strategy
 from freecad.MeshStudy.core.exceptions import MeshStudyError, MeshError
-from ..__init__ import BACKUP_PATH
+from ..__init__ import BACKUP_PATH, DATA_DIR
 
 class MeshStudyRunService:
     """The main excutive file, and the absloute coordinator"""
@@ -12,14 +12,9 @@ class MeshStudyRunService:
         self.obj = study_obj
         self.doc = study_obj.Document
 
-    def execute(self, progress_callback=None) -> list:
+    def execute(self, progress_callback=None, dialog=None) -> list:
 
-        # Get a list of all currently selected objects
-        selection = Gui.Selection.getSelection()
-        if not selection:
-            raise MeshStudyError("Please select a MeshStudy object first.")
-        
-        obj = selection[0]
+        obj = self.obj
         
         # Verify it's actually a MeshStudy object
         if not hasattr(obj, "Proxy") or not type(obj.Proxy).__name__ == "MeshStudyProxy":
@@ -71,15 +66,17 @@ class MeshStudyRunService:
             # Waiting intervals
             if progress_callback:
                 progress_callback(run_idx, len(sizes), "Waiting interval (a chance to stop)...")
-            time.sleep(1)
-            time.sleep(1)
-            time.sleep(1)
 
-            # Check if stop
-            from freecad.MeshStudy.services import send_signal
-            if send_signal.get_signal("STOP"):
-                print("received stop")
-                send_signal.reset_signal()
+            # Wait for stop
+            end_time = QtCore.QTime.currentTime().addSecs(3)
+            while QtCore.QTime.currentTime() < end_time:
+
+                QtCore.QCoreApplication.processEvents(QtCore.QEventLoop.AllEvents, 100)
+                if dialog and dialog.is_stoped():
+                    break
+
+            # check if stoped
+            if dialog and dialog.is_stoped():
                 break
                 
             # Running CalculiX
@@ -88,8 +85,6 @@ class MeshStudyRunService:
 
             from freecad.MeshStudy.fem.solver_runner import SolverRunner
             SolverRunner.solve(obj)
-
-            print("solved")
 
             # Results extraction
             result_obj = self.doc.getObject("CCX_Results") or self.doc.getObject(f"CCX_Results_{solver_obj.Name}")
@@ -116,6 +111,7 @@ class MeshStudyRunService:
     def save_results(self, results: list):
         """Save resultes in backup folder"""
 
+        os.makedirs(DATA_DIR, exist_ok = True)
         with open(BACKUP_PATH, "w", encoding="utf-8") as f:
             json.dump(results, f, indent=4)
 

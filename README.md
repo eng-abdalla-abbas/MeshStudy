@@ -1,4 +1,6 @@
 # Mesh Study
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22744056.svg)](https://doi.org/10.5281/zenodo.22744056)
+
 A workbench that automates mesh convergence studies for FEM in FreeCAD software.
 
 ## Problem to solve:  
@@ -30,14 +32,15 @@ Important Note: Netgen Meshing is not supported yet. Gmsh Meshing only.
 ![study configuration](Resources/Media/config_study.png)
 4. **Run Study**: Click **Run Study** to execute simulations across different mesh sizes automatically.  
 ![Run the study](Resources/Media/run_study.png)
-5. **Executions**: Execution is done automatically, running simulations across different mesh sizes, you can stop it by pressing the stop button **between the meshing and solving steps**.  
+5. **Executions**: Execution is done automatically, running simulations across different mesh sizes, you can stop it by pressing the stop button.
+Note: Stoping action only happens between iterations, or between the meshing and solving steps.  
 ![Execution](Resources/Media/execute_study.png)
 6. **Review Results**: Inspect the generated data table and chart, also the **convergence report** in the report view, and explore the individual result objects nested under the `MeshStudy` container in the tree view.  
 ![table resultes](Resources/Media/results_table.png)
 ![chart resultes](Resources/Media/results_chart.png)
 ![convergence report](Resources/Media/conv_report.png)
 ![Tree view objects](Resources/Media/tree_objects.png)
-7. **unexpectable crashes and errors**: because the workbench is early released, you may face strange bugs or errors (specialy during execution), thus there is a backup system built in, it is trigared every time you try to run or show resultes.  
+7. **unexpectable crashes and errors**: because the workbench is early released, you may face strange bugs or errors (specialy during execution), thus, there is a backup system built in, it is trigared to search every time you try to run or show resultes.  
 ![Backup](Resources/Media/recover_data.png)
 
 
@@ -47,7 +50,6 @@ Important Note: Netgen Meshing is not supported yet. Gmsh Meshing only.
 
 ```text
 MeshStudy/
-├── Documentation/             # Documentation and references
 ├── freecad/
 │   └── MeshStudy/             # Namespaced Python Package (FreeCAD Standard)
 │       ├── __init__.py        # Package initialization
@@ -60,7 +62,6 @@ MeshStudy/
 │       ├── services/          # Execution orchestration and run service
 │       └── strategies/        # Extensible (analysis, refinement, and QoI) strategies
 ├── Resources/
-│   ├── data/                  # Backup data folder
 │   ├── Icons/                 # Icons for UI 
 │   └── Media/                 # Screenshots and images for the project
 ├── .gitignore                 # Git ignore rules
@@ -68,6 +69,7 @@ MeshStudy/
 ├── LICENSE                    # License information
 ├── package.xml                # Addon Manager metadata
 └── README.md                  # Project documentation
+```
 
-If there are any issues, reports, or suggestions, please open a new issue at the [MeshStudy Issues](https://github.com/eng-abdalla-abbas/MeshStudy/issues) page.
+If there are any issues, reports, or suggestions, please open a new issue at the [MeshStudy Issues](https://github.com/eng-abdalla-abbas/MeshStudy/issues) page.  
 Or simply contact me directly at <abdalla.engineering@gmail.com>.

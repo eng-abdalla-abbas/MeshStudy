@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<package format="1">
+<package format="1" xmlns="https://wiki.freecad.org/Package_Metadata">
   <name>MeshStudy</name>
   <description>Automates mesh convergence studies for FEM.</description>
-  <version>0.1.1</version>
-  <date>2026-08-21</date>
+  <version>0.1.2</version>
+  <date>2026-09-10</date>
 
   <maintainer email="abdalla.engineering@gmail.com">Abdalla Abbas</maintainer>
   <license>LGPL-2.1-or-later</license>
