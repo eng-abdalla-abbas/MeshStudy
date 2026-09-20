@@ -2,10 +2,11 @@ import FreeCAD as App
 import json
 import os
 from PySide import QtCore
+from freecad.MeshStudy.core.limits import check_mesh_limits
 from freecad.MeshStudy.strategies.registry import get_qoi_extractor, get_refinement_strategy
 from freecad.MeshStudy.core.exceptions import MeshStudyError, MeshError
 from ..__init__ import BACKUP_PATH, DATA_DIR
-from freecad.MeshStudy.objects.mesh_study import check_study_parameters
+from freecad.MeshStudy.objects.mesh_study import check_study_parameters, create_study_results
 
 class MeshStudyRunService:
     """The main excutive file, and the absloute coordinator"""
@@ -59,6 +60,11 @@ class MeshStudyRunService:
             # Check Elementes and nodes number
             nodes = len(mesh_obj.FemMesh.Nodes)
             elements = len(mesh_obj.FemMesh.Volumes)
+            if check_mesh_limits(elements, nodes):
+                if results:
+                    create_study_results(results)
+                    self.clear_results()
+                raise MeshStudyError(f"Run {run_idx}: Mesh limits exceeded. Nodes: {nodes}, Elements: {elements}.")
 
             # Waiting intervals
             if progress_callback:
@@ -86,6 +92,10 @@ class MeshStudyRunService:
             # Results extraction
             result_obj = self.doc.getObject("CCX_Results") or self.doc.getObject(f"CCX_Results_{solver_obj.Name}")
             qoi_value = qoi_extractor.extract(result_obj) if result_obj else 0.0
+
+            # check for Zero QoI
+            if qoi_value == 0.0:
+                raise MeshStudyError(f"Run {run_idx}: Quantity of Interest (QoI) is zero. Check the solver results.")
 
             # format data
             run_data = {
