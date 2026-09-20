@@ -1,7 +1,8 @@
 # Mesh Study
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22744056.svg)](https://doi.org/10.5281/zenodo.22744056)
 
-A workbench that automates mesh convergence studies for FEM in FreeCAD software.
+
+A workbench that automates mesh refinement studies for FEM in FreeCAD software.
 
 ## Problem to solve:  
 Mesh independency is a fundemental requirement in every finit element analysis (FEA), to make sure the simulation results are accurate enough, but in FreeCAD it has to be done manualy, repeating the simulation acrose different mesh sizes, which take so much time, and can be so annoing to do.  

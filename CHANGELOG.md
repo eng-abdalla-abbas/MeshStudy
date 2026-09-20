@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.3] - 2026-09-20
+
+### Added
+
+- **Preferences Page**: Added a MeshStudy preferences page to FreeCAD settings, with configurable maximum node and element counts.
+- **Limits Toggle**: Added an option to enable or disable mesh limits while preserving the configured values.
+- **Parameter Validation**: Added pre-run validation to reject invalid study parameters with clear error messages.
+
+### Changed
+
+- **Mesh Limits**: Replaced fixed node and element limits with values stored in FreeCAD user preferences.
+- **Execution Safety**: Applied mesh-limit checks after meshing and before solver execution, stopping the study when an enabled limit is exceeded.
+
+---
+
+
 ## [0.1.2] - 2026-09-10
 
 ### Changed
@@ -18,6 +34,8 @@ All notable changes to this project will be documented in this file.
 - **Fixed Run Object Mix-up**: The run service uses the MeshStudy object it was given, instead of re-reading the current selection mid-run.
 - **Fixed Recovery Flow**: Choosing Forfeit no longer aborts Run / Show Results; only Recover returns early.
 - **Fixed Missing Backup Directory on Save**: `save_results` creates `DATA_DIR` before writing `backup_results.json`.
+
+---
 
 
 ## [0.1.1] - 2026-08-27

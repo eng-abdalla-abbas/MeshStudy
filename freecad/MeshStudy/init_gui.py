@@ -21,6 +21,11 @@ class MeshStudy(Gui.Workbench):
         self.appendToolbar("Mesh Study Tools", self.list)
         self.appendMenu("Mesh Study", self.list)
 
+        from freecad.MeshStudy.gui.preferences import MeshStudyPreferences
+        icon_path = os.path.join(ADDON_PATH, "..", ".." ,"Resources", "Icons", "Workbench.png")
+        Gui.addIcon("preferences-meshstudy", str(icon_path))
+        Gui.addPreferencePage(MeshStudyPreferences, "MeshStudy")
+
     def Activated(self):
         pass
 

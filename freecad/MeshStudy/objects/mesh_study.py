@@ -36,7 +36,7 @@ class MeshStudyProxy:
         obj.Mesher = ["Gmsh"]#, "Netgen"]
         obj.QuantityOfInterest = ["Stress", "Displacement"]#, "Strain"]
         obj.Tolerance = (5.0, 0.1, 50.0, 0.1)
-        obj.InitialMeshSize = 0.0
+        obj.InitialMeshSize = 10.0
         obj.RefinementFactor = (0.5, 0.1, 1.0, 0.5)
         obj.NumberOfRuns = 5
 
@@ -122,3 +122,37 @@ def create_study_results(results):
         StudyResultViewProvider(child.ViewObject)
         
     return child
+
+def check_study_parameters(obj):
+    errors = []
+    target = obj.TheStudyTarget
+
+    # Check if target exists
+    if not target:
+        return False, ["`TheStudyTarget` must be specified."]
+
+    # Auto-discover Mesh and Solver inside the Analysis container
+    members = getattr(target, "Group", [])
+    
+    for item in members:
+        # Find and link Mesh if missing
+        if not obj.MeshObject and item.TypeId in ("Fem::FemMeshShapeBaseObjectPython", "Fem::FemMeshShapeNetgenObject"):
+            obj.MeshObject = item
+            
+        # Find and link Solver if missing
+        if not obj.SolverObject and  item.TypeId in ("Fem::FemSolverObjectPython"):
+            obj.SolverObject = item
+
+    # Verify they were found
+    if not obj.MeshObject: errors.append("No Mesh object found inside the Analysis.")
+    if not obj.SolverObject: errors.append("No Solver object found inside the Analysis.")
+
+    # Numerical validations
+    if getattr(obj, "NumberOfRuns", 0) < 1: 
+        errors.append("Number of Runs must be more than 1.")
+    if getattr(obj, "InitialMeshSize", 0) <= 0: 
+        errors.append("Initial Mesh Size must be more than 0.")
+    if not (0 < getattr(obj, "RefinementFactor", 0) < 1): 
+        errors.append("Refinement Factor must be between 0 and 1.")
+
+    return errors
